@@ -1,4 +1,8 @@
-module QL {
+/// Clients use the GraphQL query language to make requests to a GraphQL
+/// service. We refer to these request sources as documents. A document may
+/// contain operations (queries, mutations, and subscriptions) as well as 
+/// fragments, a common unit of composition allowing for query reuse.
+module QueryLanguage {
     // 2.1.9: Names
     /// Names in GraphQL are case‐sensitive: /[_A-Za-z][_0-9A-Za-z]*/.
     public type Name = Text;
@@ -78,14 +82,21 @@ module QL {
     // 2.9
     public type Value = {
         #Variable : Variable;
-        #IntValue : Int;
-        #FloatValue : Float;
-        #StringValue : Text;
-        #BooleanValue : Bool;
+        #IntValue : QueryLanguage.Primitives.IntValue;
+        #FloatValue : QueryLanguage.Primitives.FloatValue;
+        #StringValue : QueryLanguage.Primitives.StringValue;
+        #BooleanValue : QueryLanguage.Primitives.BooleanValue;
         #NullValue;
-        #EnumValue : Name;
+        #EnumValue : QueryLanguage.Primitives.EnumValue;
         #ListValue : [Value];
         #ObjectValue : [(Name, Value)];
+    };
+    public module Primitives {
+        public type IntValue = Int;
+        public type FloatValue = Float;
+        public type StringValue = Text;
+        public type BooleanValue = Bool;
+        public type EnumValue = Name;
     };
 
     // 2.10
